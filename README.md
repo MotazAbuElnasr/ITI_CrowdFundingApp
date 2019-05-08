@@ -8,7 +8,7 @@
 
 * download the project 
 * install virtualenv `pip3 install virtualenv`
-* init your virtualenv `virtualenv env`
+* init your virtualenv `virtualenv venv`
 * active virtualenv `source env/bin/activate`
 * install required packages on virtualenv `pip3 install -r requirements.txt`
 * run server `python3 manage.py runserver`
