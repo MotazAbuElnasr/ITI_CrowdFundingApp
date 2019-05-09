@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'taggit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,11 +82,13 @@ DATABASES = {
         'NAME': 'crowd_funding',
         'USER': 'root',
         'PASSWORD': '',
+        # 'HOST': 'localhost',
         'HOST': '/opt/lampp/var/mysql/mysql.sock',
         'PORT': '3306',
     }
 }
 
+TAGGIT_CASE_INSENSITIVE = True
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
