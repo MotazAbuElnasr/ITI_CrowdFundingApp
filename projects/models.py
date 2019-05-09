@@ -5,6 +5,7 @@ import uuid
 import os
 from taggit.managers import TaggableManager
 
+
 class Category(models.Model):
     title = models.CharField(max_length=100)
     img = models.ImageField( upload_to="categories/")
@@ -40,3 +41,8 @@ class ProjectImage(models.Model):
     img = models.ImageField( upload_to=get_file_path)
     def __str__(self):
        return self.project.title
+
+class Donation(models.Model) : 
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    amount = models.IntegerField()
