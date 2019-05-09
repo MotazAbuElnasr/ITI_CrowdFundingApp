@@ -82,8 +82,8 @@ DATABASES = {
         'NAME': 'crowd_funding',
         'USER': 'root',
         'PASSWORD': '',
-        # 'HOST': 'localhost',
-        'HOST': '/opt/lampp/var/mysql/mysql.sock',
+        'HOST': 'localhost',
+        # 'HOST': '/opt/lampp/var/mysql/mysql.sock',
         'PORT': '3306',
     }
 }

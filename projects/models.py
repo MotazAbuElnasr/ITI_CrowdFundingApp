@@ -16,13 +16,15 @@ class Project(models.Model):
     details = models.TextField()
     target = models.IntegerField()
     tags = TaggableManager()
+    featured = models.BooleanField(default=False)
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
 class Comment(models.Model):
     rate = models.IntegerField()
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
     comment = models.TextField()
     body = models.CharField(max_length=400)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE)
 
 # function to generate unique name for uploaded imgs
 def get_file_path(instance, filename):
