@@ -50,6 +50,7 @@ def register(request):
             to_email = user_form.cleaned_data.get('email')
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
+
             # return HttpResponse('Please confirm your email address to complete the registration')
             profile = profile_form.save(commit=False)
             profile.user = user
@@ -102,3 +103,4 @@ def activate(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+
