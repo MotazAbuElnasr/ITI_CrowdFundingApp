@@ -19,14 +19,15 @@ class Project(models.Model):
     details = models.TextField()
     target = models.IntegerField()
     tags = TaggableManager()
+    featured = models.BooleanField(default=False)
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
     def __str__(self):
        return self.title
 class Comment(models.Model):
     rate = models.IntegerField()
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
     comment = models.TextField()
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     def __str__(self):
        return self.project.title
