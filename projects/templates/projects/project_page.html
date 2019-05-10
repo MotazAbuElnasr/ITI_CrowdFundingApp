@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    {%load static%}
+    <link href="{% static 'projects/project_page.css' %}" rel="stylesheet" />
+    <!-- the static -->
+</head>
+{% load projects_filters %}
+
+<body>
+    <div class="container">
+        <div class="row book">
+            <div class="col-3">
+                <img src="{{ featured_img }}" class="bookCover img-fluid" />
+            </div>
+            <div class="col-7 bookArea">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="bookTitle">{{ project.title }}</h2>
+                        <h4>project owner</h4>
+                        <h5>{{ project.user.username }}</h5>
+                        <p class="bookDescription">{{ project.details }}</p>
+                        {% if comments|length > 0 %}
+                        <h4>Average rating :</h4>
+                        {%for i in avg_rate%}
+                        <span class="star yellow-text text-darken-2">★</span>
+                        {%endfor%}
+                        {%for i in rest_of_stars%}
+                        <span class="star">☆</span>
+                        {% endfor %}
+                        {%if comments|length > 1%}
+                        <span> ({{ comments|length }} users have rated this project)</span>
+                        {%else%}
+                        <span> (1 user has rated this project)</span>
+                        {%endif%}
+                        {%else%}
+                        <h5>This book hasnot been rated yet</h5>
+                        {%endif%}
+                        <p class="bookDescription">{{ project.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-7">
+                {%for entry in comments%}
+                <div class="card">
+                    <div style="height:50px" class="d-flex  justify-content-around blue darken-1">
+                        <p class=" ml-3 text-white userName">{{ users_info|user_name:forloop.counter0 }}</p>
+
+                        <p class="ml-3 text-white donatedAmount ">
+                            Donated amount : {{ users_info|amount:forloop.counter0 }}
+                        </p>
+                        <div class="rating ml-5">
+                            {%for i in entry.rate|to_range %} <span class="star yellow-text text-darken-2">★</span>
+                            {%endfor%}
+                            {%with remainder=5|sub:entry.rate%}
+                            {%for i in remainder|to_range%} <span class="star">☆</span>
+                            {%endfor%}
+                            {%endwith%}
+                        </div>
+                        {# Here we will add the ability to delete #}
+                    </div>
+                    <div class=" comment card-content light-green lighten-4">
+                        {{ entry.comment }}
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+            <div class="col-1"></div>
+            <div class="col-4">
+                <div class="card">
+                    <div style="height:50px" class="d-flex  justify-content-around blue darken-1">
+                        <p class=" ml-3 text-white userName">Donators</p>
+                    </div>
+                    <div class=" comment card-content light-green lighten-4">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">User Name</th>
+                                    <th class="text-center">ِAmount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {%for user in users_info%}
+                            <tr>
+                                <td class="text-center">{{ user.user_name }}</td>
+                                <td class="text-center">{{ user.amount }}</td>
+                            </tr>
+                            {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+        </script>
+    <script>
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" />
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity = "sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin = "anonymous" >
+            </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+        </script>
+
+</body>
+
+</html>

@@ -80,8 +80,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'crowd_funding',
-        'USER': 'root',
-        'PASSWORD': '',
+        # 'USER': 'root',
+        # 'PASSWORD': '',
+        'USER': 'Shawkat',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         # 'HOST': '/opt/lampp/var/mysql/mysql.sock',
         'PORT': '3306',
