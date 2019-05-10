@@ -135,7 +135,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/users/login'
 
 #email configurations
@@ -150,10 +150,11 @@ SOCIAL_AUTH_FACEBOOK_SECRET = 'e70e7a74b24022aefcf1bbe07a2a28cb'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
       'fields': 'id, name, email, picture.type(large), link'
-    }
+}
 SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
         ('name', 'name'),
         ('email', 'email'),
         ('picture', 'picture'),
         ('link', 'profile_url'),
-    ]
+]
+

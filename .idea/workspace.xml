@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f47243d8-a962-4181-9028-1d88ba778f76" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crowd_funding/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/crowd_funding/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crowd_funding/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/crowd_funding/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/templates/projects/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/projects/templates/projects/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/templates/users/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/users/templates/users/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/templates/users/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/users/templates/users/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,7 +15,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/users/templates/users/login.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="510">
@@ -29,6 +23,15 @@
               <folding>
                 <element signature="e#725#744#0#HTML" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/crowd_funding/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="449">
+              <caret line="137" column="23" selection-start-line="137" selection-start-column="23" selection-end-line="137" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -90,9 +93,9 @@
         <option value="$PROJECT_DIR$/users/urls.py" />
         <option value="$PROJECT_DIR$/users/templates/users/base.html" />
         <option value="$PROJECT_DIR$/users/templates/users/login.html" />
-        <option value="$PROJECT_DIR$/crowd_funding/settings.py" />
         <option value="$PROJECT_DIR$/projects/templates/projects/index.html" />
         <option value="$PROJECT_DIR$/crowd_funding/urls.py" />
+        <option value="$PROJECT_DIR$/crowd_funding/settings.py" />
       </list>
     </option>
   </component>
@@ -224,12 +227,12 @@
       <workItem from="1557500255185" duration="10549000" />
       <workItem from="1557518283350" duration="2430000" />
       <workItem from="1557522981315" duration="2666000" />
-      <workItem from="1557526750411" duration="679000" />
+      <workItem from="1557526750411" duration="1295000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25108000" />
+    <option name="totallyTimeSpent" value="25724000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="34" width="1920" height="1046" extended-state="6" />
@@ -385,13 +388,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowd_funding/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="147" column="44" lean-forward="true" selection-start-line="147" selection-start-column="44" selection-end-line="147" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/projects/templates/projects/layout.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-180" />
@@ -458,6 +454,13 @@
           <folding>
             <element signature="e#725#744#0#HTML" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowd_funding/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="449">
+          <caret line="137" column="23" selection-start-line="137" selection-start-column="23" selection-end-line="137" selection-end-column="23" />
         </state>
       </provider>
     </entry>
