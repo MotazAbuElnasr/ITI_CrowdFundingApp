@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'projects',
     'users',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +64,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -106,6 +109,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+        'social_core.backends.linkedin.LinkedinOAuth2',
+        'social_core.backends.instagram.InstagramOAuth2',
+        'social_core.backends.facebook.FacebookOAuth2',
+        'django.contrib.auth.backends.ModelBackend',
+    ]
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -134,3 +144,16 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ahmedmagdy2016@gmail.com'
 EMAIL_HOST_PASSWORD = 'yxsrsiuzpaewwbhb'
 EMAIL_PORT = 587
+
+SOCIAL_AUTH_FACEBOOK_KEY = '292236558347924'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'e70e7a74b24022aefcf1bbe07a2a28cb'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+      'fields': 'id, name, email, picture.type(large), link'
+    }
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
+        ('name', 'name'),
+        ('email', 'email'),
+        ('picture', 'picture'),
+        ('link', 'profile_url'),
+    ]

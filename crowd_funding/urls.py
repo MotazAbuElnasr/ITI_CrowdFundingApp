@@ -29,7 +29,9 @@ urlpatterns = [
     # path('', views.index, name='index'),
     path('users/', include('users.urls')),
     path('logout/', views.user_logout, name='logout'),
-    path('special/',views.special,name='special'),
+    path('special/', views.special, name='special'),
+    path('social-auth/', include('social_django.urls', namespace="social")),
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

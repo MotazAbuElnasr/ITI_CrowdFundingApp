@@ -14,6 +14,17 @@
                   <input type="password" name="password" placeholder="Password">
         <input type="submit" name="" value="Login">
         </form>
+        <button class="btn btn-primary mb-2">
+            <a href="{% url 'social:begin' 'facebook' %}" style="color:white">Login with Facebook</a>
+        </button>
     </div>
+
+{#    <div class="col-md-8 mx-auto social-container my-2 order-md-1">#}
+{##}
+{#            <button class="btn btn-primary mb-2">#}
+{#                <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>#}
+{#            </button>#}
+{##}
+{#        </div>#}
   </div>
 {% endblock %}
