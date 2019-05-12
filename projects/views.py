@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 import datetime
 from django.shortcuts import render
@@ -9,6 +10,7 @@ from django.contrib.auth.models import User
 register = template.Library()
 
 
+@login_required
 def index(request):
     topRatedProjects = Project.objects.annotate(comment_rate=Avg('comment__rate')).order_by('-comment_rate')[:5]
     latestProjects = Project.objects.order_by('start_date')[:5]
@@ -60,6 +62,7 @@ def index(request):
 register = template.Library()
 
 
+@login_required
 def view_project(request, id):
     project = Project.objects.get(id=id)
     featured_img = project.projectimage_set.first().img.url
@@ -97,6 +100,7 @@ def view_project(request, id):
     return render(request, 'projects/project_page.html', context)
 
 
+@login_required
 def project_search(request):
     query = request.GET.get('q')
     result = []
