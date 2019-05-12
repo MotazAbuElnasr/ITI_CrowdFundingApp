@@ -65,7 +65,7 @@
                             </div>
                             <input type="hidden" value="{{ project.id }}" name="project_id" />
                             <button type="submit" class="borrow waves-effect waves-light  green lighten-2 btn"
-                                style="width:60%"> Donate </button>
+                                style="width:70%"> Donate </button>
                         </form>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                         </form>
                         {%endif%}
                         {%if can_cancel%}
-                        <form method="post" action="delete_project">
+                        <form method="post" action="cancel_project">
                             {% csrf_token %}
                             <input type="hidden" value="{{ project.id }}" name="project_id" />
                             <button type="submit" class="cancel waves-effect waves-light text-white red lighten-2 btn"

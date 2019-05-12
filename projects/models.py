@@ -19,6 +19,7 @@ class Project(models.Model):
     details = models.TextField()
     target = models.IntegerField()
     tags = TaggableManager()
+    reports = models.IntegerField()
     featured = models.BooleanField(default=False)
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()

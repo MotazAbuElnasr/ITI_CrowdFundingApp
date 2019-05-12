@@ -77,6 +77,7 @@ def get_users_info (project_id,comments,user_names) :
     }
     users_info.append(dict(user_info))
     return users_info
+
 def get_donators_info(p_id):
     # get donation info
     all_donations = Donation.objects.filter(
@@ -134,15 +135,14 @@ def view_project(request, id):
         "users_info": users_info,
         "avg_rate": range(int(avg_rate['rate__avg'])),
         "rest_of_stars": range((5-int(avg_rate['rate__avg']))),
-        "can_comment": can_comment,
         "total_amount": total_amount,
         "target": target,
         "percentage": percentage,
+        "can_comment": can_comment,
         "can_cancel" : can_cancel,
-        "can_report" : can_report
+        "can_report" : can_report,
     }
     return render(request, 'projects/project_page.html/', context)
-
 
 def add_comment(request):
     print(request.user.id)
@@ -158,7 +158,6 @@ def add_comment(request):
         return redirect('/projects/'+str(comment.project_id))
     return redirect('/projects/'+str(comment.project_id))
 
-
 def donate(request):
     donation = Donation()
     donation.amount = request.POST['amount']
@@ -167,11 +166,20 @@ def donate(request):
     donation.save()
     return redirect('/projects/'+str(donation.project_id))
 
-def cancel_project():
-    pass 
-def report_project():
-    pass
+def cancel_project(request):
+    current_user = 2
+    p_id = request.POST['project_id']
+    project = Project.objects.get(id=p_id)
+    # check if the deleter is the project owner
+    if current_user == project.user_id:
+        project.delete()
+        return redirect('/')
+    return redirect('/projects/'+str(p_id))
     
+def report_project(request) :
+    
+    pass
+
 def project_search(request):
     query = request.GET.get('q')
     result = []
