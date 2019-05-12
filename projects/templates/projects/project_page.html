@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
     <!-- Compiled and minified JavaScript -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
@@ -20,95 +21,134 @@
 
 <body>
     <div class="container">
-        <div class="row book">
+        <div class="row project">
             <div class="col-3">
-                <img src="{{ featured_img }}" class="bookCover img-fluid" />
+                <img src="{{ featured_img }}" class="projectCover img-fluid" />
             </div>
-            <div class="col-7 bookArea">
+            <div class="col-5 projectArea">
                 <div class="row">
-                    <div class="col-9">
-                        <h2 class="bookTitle">{{ project.title }}</h2>
-                        <h4>project owner</h4>
-                        <h5>{{ project.user.username }}</h5>
-                        <p class="bookDescription">{{ project.details }}</p>
+                    <div class="col-12">
+                        <h2 class="projectTitle">{{ project.title }}</h2>
                         {% if comments|length > 0 %}
-                        <h4>Average rating :</h4>
-                        {%for i in avg_rate%}
-                        <span class="star yellow-text text-darken-2">★</span>
-                        {%endfor%}
-                        {%for i in rest_of_stars%}
-                        <span class="star">☆</span>
-                        {% endfor %}
+                        <h4 class="float-left">Average rating : </h4>
+                        <div>
+                            {%for i in avg_rate%}
+                            <span class="star yellow-text text-darken-2">★</span>
+                            {%endfor%}
+                            {%for i in rest_of_stars%}
+                            <span class="star">☆</span>
+                            {% endfor %}
+                        </div>
                         {%if comments|length > 1%}
                         <span> ({{ comments|length }} users have rated this project)</span>
                         {%else%}
                         <span> (1 user has rated this project)</span>
                         {%endif%}
                         {%else%}
-                        <h5>This book hasnot been rated yet</h5>
+                        <h5>This project hasnot been rated yet</h5>
                         {%endif%}
-                        <p class="bookDescription">{{ project.description }}</p>
+                        <h4>project owner : {{ project.user.username }}</h4>
+                        <p class="projectDescription">Details : {{ project.details }}</p>
+                        <form method="post" action="donate">
+                            {% csrf_token %}
+                            <div class="row" style="margin-top:-30px;margin-bottom:-17px">
+                                <div class="col-12" style="font-size:19px">
+                                    Donate amount :
+                                    <div class="input-field inline">
+                                        <input style="font-size:19px" id="number_of_days" type="number"
+                                            class="form-control text-center" name="amount" min="1" max="10000"
+                                            value="1" />
+
+                                    </div>
+                                    EGP
+                                </div>
+                            </div>
+                            <input type="hidden" value="{{ project.id }}" name="project_id" />
+                            <button type="submit" class="borrow waves-effect waves-light  green lighten-2 btn"
+                                style="width:60%"> Donate </button>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-2"></div>
-        </div>
-        <div class="row">
-            <div class="col-7">
-                    <form method="post" action="addcomment">
-                        {% csrf_token %}
-                        <!-- get book id and book category -->
-                        <input type="hidden" name="project_id" value="{{ project.id }}" />
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="form-group">
-                                    <div class="input-field">
-                                            {%for message in messages%}
-                                            {%if message.tags == 'info'%},
-                                            <textarea name="comment" id="textarea1" class="materialize-textarea"
-                                            >{{ message }}</textarea>
-                                         <label for="textarea1">Enter your comment</label>                                            {%endif%}
-                                            {%endfor%}
-
-                                            {%for message in messages%}
-                                            {%if message.tags == 'error' or message.tags == 'warning'%},
-                                            <textarea name="comment" id="textarea1" class="materialize-textarea"
-                                            ></textarea>
-                                         <label for="textarea1">Enter your comment</label>                                            {%endif%}
-                                            {%endfor%}
-
-                                            {%if not messages%}
-                                            <textarea name="comment" id="textarea1" class="materialize-textarea"
-                                            ></textarea>
-                                         <label for="textarea1">Enter your comment</label>   
-                                         {%endif%}
-                                    </div>
-                                </div>
-                                <input id="comment" type="submit" class="waves-light btn btn-block indigo lighten-1" value="comment" />
-                            </div>
-                            <div class="col-4">
-                                <ul class="rate-area">
-                                    <input type="radio" id="5-star" name="rating" value="5" /><label for="5-star" title="Amazing">5
-                                        stars</label>
-                                    <input type="radio" id="4-star" name="rating" value="4" /><label for="4-star" title="Good">4
-                                        stars</label>
-                                    <input type="radio" id="3-star" name="rating" value="3" /><label for="3-star" title="Average">3
-                                        stars</label>
-                                    <input type="radio" id="2-star" name="rating" value="2" /><label for="2-star" title="Not Good">2
-                                        stars</label>
-                                    <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star" title="Bad">1
-                                        star</label>
-                                </ul>
+            <div class="col-4">
+                <div class="row justify-content-center">
+                    <div class="col-10 donation text-center">
+                        <p>Target : {{ target }}</p>
+                        <p>Donated : {{ total_amount }}</p>
+                        <div class="w3-light-grey w3-round">
+                            <div class="w3-container w3-round w3-blue" style="color:teal; width:{{ percentage }}%">{{ percentage }}%
                             </div>
                         </div>
-                    </form>
-                {%for entry in comments%}
+
+                    </div>
+
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-10 actions">
+                        {%if can_report%}
+                        <form method="post" action="report_project">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ project.id }}" name="project_id" />
+                            <button type="submit" class="report waves-effect waves-light  yellow darken-2 btn mb-1"
+                                style="width:100%"> Report </button>
+                        </form>
+                        {%endif%}
+                        {%if can_cancel%}
+                        <form method="post" action="delete_project">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ project.id }}" name="project_id" />
+                            <button type="submit" class="cancel waves-effect waves-light text-white red lighten-2 btn"
+                                style="width:100%"> Cancel project </button>
+                        </form>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-7">
+                {%if can_comment%}
+                <form method="post" action="addcomment">
+                    {% csrf_token %}
+                    <!-- get project id and project category -->
+                    <input type="hidden" name="project_id" value="{{ project.id }}" />
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <div class="input-field">
+                                    {{ form.comment }}
+                                    <label for="id_comment">Enter your comment</label>
+                                </div>
+                            </div>
+                            <input id="comment" type="submit" class="waves-light btn btn-block indigo lighten-1"
+                                value="comment" />
+                        </div>
+                        <div class="col-4">
+                            <ul class="rate-area">
+                                {% for radio in form.rate %}
+                                {{ radio.tag }}
+                                <label title="{{ radio.choice_label }}" for="{{ radio.id_for_label }}"> </label>
+                                {% endfor %}
+                            </ul>
+
+                        </div>
+                    </div>
+                </form>
+                {%else%}
+                <div class="text-center alert-danger error">
+                    <h4>
+                        You have already rated this project
+                    </h4>
+                </div>
+                {%endif%}
+                {%for entry in users_info%}
                 <div class="card">
                     <div style="height:50px" class="d-flex  justify-content-around blue darken-1">
-                        <p class=" ml-3 text-white userName">{{ users_info|user_name:forloop.counter0 }}</p>
+                        <p class=" ml-3 text-white userName">{{ entry.user_name }}</p>
 
                         <p class="ml-3 text-white donatedAmount ">
-                            Donated amount : {{ users_info|amount:forloop.counter0 }}
+                            Donated amount : {{ entry.amount }}
                         </p>
                         <div class="rating ml-5">
                             {%for i in entry.rate|to_range %} <span class="star yellow-text text-darken-2">★</span>
@@ -141,12 +181,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {%for user in users_info%}
-                            <tr>
-                                <td class="text-center">{{ user.user_name }}</td>
-                                <td class="text-center">{{ user.amount }}</td>
-                            </tr>
-                            {%endfor%}
+                                {%for user in donators%}
+                                <tr>
+                                    <td class="text-center">{{ user.user_name }}</td>
+                                    <td class="text-center">{{ user.sum }}</td>
+                                </tr>
+                                {%endfor%}
                             </tbody>
                         </table>
                     </div>

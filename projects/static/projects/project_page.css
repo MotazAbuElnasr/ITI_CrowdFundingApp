@@ -1,27 +1,25 @@
-.borrow {
-    color: rgb(255, 255, 255) !important;
+.report:hover {
+    background-color: rgb(214, 211, 0) !important;
 }
-.return{
-    color: rgb(54, 1, 1) !important;
+.cancel:hover {
+    background-color: rgb(129, 0, 0) !important;
 }
-.borrow:hover {
-    background-color: rgb(6, 177, 148) !important;
-}
+
 .availableMsg {
     color: green;
 }
 .unavailableMsg {
     color: rgb(165, 0, 0);
 }
-.bookArea {
+.projectArea {
     background-color: rgba(255, 255, 255, 0.466);
     padding: 15px;
     border-radius: 15px;
 }
-.bookDescription{
+.projectDescription{
     font-size: 22px
 }
-.bookTitle{
+.projectTitle{
     background: rgba(187, 187, 187, 0.555);
     padding-left:5%;
     border-radius: 20px
@@ -30,12 +28,11 @@
     float: left;
     border-style: none;
 }
-
+/* 
 .rate-area:not(:checked) > input {
     position: absolute;
     top: -9999px;
-    clip: rect(0, 0, 0, 0);
-}
+} */
 
 .rate-area:not(:checked) > label {
     float: right;
@@ -129,30 +126,15 @@ textarea.materialize-textarea:focus:not([readonly]) {
     border-radius: 10px;
 }
 
-.book {
-    background: rgb(220, 230, 255);
+.project {
+    background: rgb(193, 211, 255);
     border-radius: 20px;
     padding: 20px;
 }
-
-.heart {
-    width: 100px;
-    height: 100px;
-    background: url("https://cssanimation.rocks/images/posts/steps/heart.png") no-repeat;
-    background-position: 0 0;
-    cursor: pointer;
-    transition: background-position 1s steps(28);
-    transition-duration: 0s;
-}
-.heart.is-active {
-    transition-duration: 1s;
-    background-position: -2800px 0;
+.donation,.actions{
+    background-color: rgba(255, 255, 255, 0.466);
+    border-radius: 20px;
+    padding: 20px;
+    font-size:20px;
 }
 
-  .stage {
-            transform: translate(-50%, -50%);
-  }
-.stage {
-    margin-top: 40%;
-    transform: translate(-50%, -50%);
-}

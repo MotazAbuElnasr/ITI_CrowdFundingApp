@@ -1,134 +1,197 @@
 import datetime
-from django.http import HttpResponse
-import datetime
-from django.shortcuts import render
-from .models import Comment, Project , ProjectImage , Donation
-from django.db.models import Avg,Sum, Count ,Q
+import math
 from django import template
-from django.contrib.auth.models import User
-from django.db.models import Avg, Sum
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.db.models import Avg, Count, Q, Sum
+from django.db.models.query import prefetch_related_objects
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
 
+from .forms import AddCommentForm
 from .models import Comment, Donation, Project, ProjectImage
 
 register = template.Library()
 
-def index(request):
-    topRatedProjects = Project.objects.annotate(comment_rate=Avg('comment__rate')).order_by('-comment_rate')[:5]
-    latestProjects = Project.objects.order_by('start_date')[:5]
-    featuredProjects = Project.objects.filter(featured=True).order_by('start_date')[:5]
 
-    #preparing Top Rated Projects in One List 
-    topRatedProjectsList =[]
+def index(request):
+    topRatedProjects = Project.objects.annotate(
+        comment_rate=Avg('comment__rate')).order_by('-comment_rate')[:5]
+    latestProjects = Project.objects.order_by('start_date')[:5]
+    featuredProjects = Project.objects.filter(
+        featured=True).order_by('start_date')[:5]
+
+    # preparing Top Rated Projects in One List
+    topRatedProjectsList = []
     for project in topRatedProjects:
         topRatedProjectsList.append({
-            'id':project.id,
-            'title':project.title,
-            'rate':project.comment_rate,
-            'target':project.target,
-            'img':project.projectimage_set.first().img.url
-            })
+            'id': project.id,
+            'title': project.title,
+            'rate': project.comment_rate,
+            'target': project.target,
+            'img': project.projectimage_set.first().img.url
+        })
 
-    #preparing Latest Projects in One List 
-    latestProjectsList =[]
+    # preparing Latest Projects in One List
+    latestProjectsList = []
     for project in latestProjects:
         latestProjectsList.append({
-            'id':project.id,
-            'title':project.title,
-            'details':"asdfdsaf12",
-            'target':project.target,
-            'start_date':project.start_date,
-            'img':project.projectimage_set.first().img.url
-            })
-    
-    #preparing Featured Projects in One List 
-    featuredProjectsList =[]
+            'id': project.id,
+            'title': project.title,
+            'details': "asdfdsaf12",
+            'target': project.target,
+            'start_date': project.start_date,
+            'img': project.projectimage_set.first().img.url
+        })
+
+    # preparing Featured Projects in One List
+    featuredProjectsList = []
     for project in featuredProjects:
         featuredProjectsList.append({
-            'id':project.id,
-            'title':project.title,
-            'details':"asdfdsaf12",
-            'target':project.target,
-            'start_date':project.start_date,
-            'img':project.projectimage_set.first().img.url
-            })
+            'id': project.id,
+            'title': project.title,
+            'details': "asdfdsaf12",
+            'target': project.target,
+            'start_date': project.start_date,
+            'img': project.projectimage_set.first().img.url
+        })
     # imgSrc = topRatedProjects[0].projectimage_set.first().img.url
-    context= {
-        'topRatedProjectsList':topRatedProjectsList,
-        'latestProjectsList':latestProjectsList,
-        'featuredProjectsList':featuredProjectsList,
-         }
-    return render(request,"projects/index.html",context)
+    context = {
+        'topRatedProjectsList': topRatedProjectsList,
+        'latestProjectsList': latestProjectsList,
+        'featuredProjectsList': featuredProjectsList,
+    }
+    return render(request, "projects/index.html", context)
 
-def view_project(request,id,comment=''): 
+def get_users_info (project_id,comments,user_names) :
+    users_info=[]
+    for i, user in enumerate(user_names):
+        amount = Donation.objects.filter(user_id=user[1], project_id=project_id).aggregate(Sum('amount'))
+    if amount['amount__sum'] == None:
+        amount['amount__sum'] = "0"
+    user_info = {
+        "user_name": user_names[i][0],
+        "amount": int(amount['amount__sum']),
+        "comment": comments[i]['comment'],
+        "rate": comments[i]['rate']
+    }
+    users_info.append(dict(user_info))
+    return users_info
+def get_donators_info(p_id):
+    # get donation info
+    all_donations = Donation.objects.filter(
+        project_id=p_id).prefetch_related('user')
+    donation_info = list(all_donations.values('user_id').annotate(sum=Sum('amount')).order_by('-sum'))
+    donators = []
+    donator_id = []
+    for entry in donation_info:
+        for data in all_donations:
+            if data.user.id == entry['user_id'] and data.user.id not in donator_id:
+                donators.append(
+                    {"user_name": data.user.username, "sum": entry['sum']})
+                # to make sure that the name won't be repeated
+                donator_id.append(data.user.id)
+    return donators
+
+def view_project(request, id):
+    current_user = 1
     project = Project.objects.get(id=id)
     featured_img = project.projectimage_set.first().img.url
     comments = list(project.comment_set.values())
     imgs = project.projectimage_set.all()
     # get user name by populating comments
     populated_comments = project.comment_set.all()
-    user_names = [(obj.user.username , obj.user.id ) for obj in populated_comments]
-    # get donation amount
-    users_info=[]
-    for i,user in enumerate(user_names):
-        amount = Donation.objects.filter(user_id=user[1],project_id=id).aggregate(Sum('amount'))
-        if amount['amount__sum'] == None:
-            amount['amount__sum']="0"
-        user_info = {
-            "user_name":user_names[i][0],
-            "amount":int(amount['amount__sum']) 
-            }
-        users_info.append(dict(user_info))
+    user_names = [(entry.user.username, entry.user.id)
+                  for entry in populated_comments]
 
-    avg_rate = Comment.objects.filter(project_id = id).aggregate(Avg('rate'))
+        # check if the user can comment
+    user_comments_count = populated_comments.filter(
+        user_id=current_user, project_id=id).count()
+    can_comment = not bool(user_comments_count)
+
+    avg_rate = Comment.objects.filter(project_id=id).aggregate(Avg('rate'))
     if avg_rate['rate__avg'] == None:
         avg_rate['rate__avg'] = "0"
-    # to get specific index for example we use list(prokect.projectimage_set.values())[2]
-    # to get comments using reverse query we use list(project.comment_set.values())
+    # Get the progress of project
+    total_amount = Donation.objects.filter(
+        project_id=id).aggregate(Sum('amount'))['amount__sum']
+    target = project.target
+    percentage = math.floor(total_amount*100/target)
+    can_cancel = True if percentage < 25 and project.user_id == current_user else False
+    can_report = True if project.user_id != current_user else False
+    # ِAdd comment form
+    form = AddCommentForm()
+    # get donation amount for everyh person
+    users_info = get_users_info(id,comments, user_names)
+    donators = get_donators_info(id)
     context = {
-        "project":project,
-        "featured_img":featured_img,
-        "comments":comments,
-        "comment":comment,
-        "imgs":imgs,
-        "users_info":users_info,
-        "avg_rate":range(int(avg_rate['rate__avg'])),
-        "rest_of_stars":range((5-int(avg_rate['rate__avg'])))
+        "project": project,
+        "featured_img": featured_img,
+        "form": form,
+        "imgs": imgs,
+        'comments': comments,
+        "donators": donators,
+        "users_info": users_info,
+        "avg_rate": range(int(avg_rate['rate__avg'])),
+        "rest_of_stars": range((5-int(avg_rate['rate__avg']))),
+        "can_comment": can_comment,
+        "total_amount": total_amount,
+        "target": target,
+        "percentage": percentage,
+        "can_cancel" : can_cancel,
+        "can_report" : can_report
     }
     return render(request, 'projects/project_page.html/', context)
+
+
 def add_comment(request):
-    project_id= request.POST.get('project_id')
-    comment= request.POST.get('comment')
-    rating= request.POST.get('rating')
-    if not comment :
-        messages.error(request,"The comment is required")
-    if not rating : 
-        messages.warning(request,"The rating is required")
-    messages.info(request,comment)
-    return redirect('/projects/'+str(project_id))
+    print(request.user.id)
+    current_user = 1
+    form = AddCommentForm(request.POST)
+    if form.is_valid():
+        comment = Comment()
+        comment.rate = int(form['rate'].value())
+        comment.comment = form['comment'].value()
+        comment.project_id = int(request.POST['project_id'])
+        comment.user_id = current_user
+        comment.save()
+        return redirect('/projects/'+str(comment.project_id))
+    return redirect('/projects/'+str(comment.project_id))
 
 
+def donate(request):
+    donation = Donation()
+    donation.amount = request.POST['amount']
+    donation.project_id = request.POST['project_id']
+    donation.user_id = 1
+    donation.save()
+    return redirect('/projects/'+str(donation.project_id))
+
+def cancel_project():
+    pass 
+def report_project():
+    pass
+    
 def project_search(request):
     query = request.GET.get('q')
     result = []
-    # get the query result 
+    # get the query result
     if query:
         result = Project.objects.filter(
-            Q(title__icontains=query)|
+            Q(title__icontains=query) |
             Q(title__icontains=query)
         ).distinct().annotate(comment_rate=Avg('comment__rate'))
-    resultList =[]
+    resultList = []
 
     # preparing the result to the tempalte
     for project in result:
         resultList.append({
-            'id':project.id,
-            'title':project.title,
-            'rate':project.comment_rate,
-            'target':project.target,
-            'img':project.projectimage_set.first().img.url
-            })
-    return render(request, 'projects/search_result.html',{'result':result})
-    Project.objects.filter(Q(title__icontains="project")|Q(details__icontains="project")).distinct().annotate(comment_rate=Avg('comment__rate'))
+            'title': project.title,
+            'rate': project.comment_rate,
+            'target': project.target,
+            'img': project.projectimage_set.first().img.url
+        })
+    return render(request, 'projects/search_result.html', {'result': result})
+
+    Project.objects.filter(Q(title__icontains="project") | Q(
+        details__icontains="project")).distinct().annotate()
