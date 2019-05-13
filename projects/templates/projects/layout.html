@@ -24,7 +24,11 @@
         {% if user.is_authenticated %}
 {#        <div class="col-sm-12 mt-2 text-center">#}
 {#          <button class="btn btn-default">#}
-            <a href="{% url 'logout' %}" style="color: white;">Logout</a>
+            <a href="{% url 'logout' %}"
+               style="color: rgba(255,255,255,.5);
+                      margin-top: 9px;
+                      margin-left: 5px;
+                      text-decoration: none;">Logout</a>
 {#          </button>#}
 {#        </div>#}
         {% endif %}

@@ -84,7 +84,7 @@ def user_login(request):
         else:
             print("Someone tried to login and failed.")
             print("They used username: {} and password: {}".format(username, password))
-            return HttpResponse("Invalid login details given")
+            return HttpResponseRedirect(redirect_to='/users/user_login')
     else:
         return render(request, 'users/login.html', {})
 
@@ -104,4 +104,3 @@ def activate(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
-
