@@ -6,12 +6,12 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import settings
 from projects.views import index
 from users import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('projects/', include('projects.urls')),
     path('', index),
-    # path('', views.index, name='index'),
     path('users/', include('users.urls')),
     path('logout/', views.user_logout, name='logout'),
     path('special/', views.special, name='special'),
