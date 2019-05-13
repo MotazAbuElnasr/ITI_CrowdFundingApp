@@ -71,7 +71,7 @@
                     <a href="projects/{{ project.id }}">
                         <h5 class="card-title">{{project.title}}</h5>
                     </a>
-                    <p class="card-text">{{project.details}}</p>
+                    {% comment %} <p class="card-text">{ {project.details}}</p> {% endcomment %}
                     <p class="card-text">Target: {{project.target}}</p>
                     <p class="card-text"><small class="textmuted">{{project.start_date}}</small></p>
                 </div>

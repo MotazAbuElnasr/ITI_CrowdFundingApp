@@ -275,13 +275,17 @@ def project_search(request):
 
     # preparing the result to the tempalte
     for project in result:
+        print(project)
         resultList.append({
+            'id':project.id,
             'title': project.title,
             'rate': project.comment_rate,
             'target': project.target,
-            'img': project.projectimage_set.first().img.url
+            'details': project.details,
+            'start_date':project.start_date,
+            'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
         })
-    return render(request, 'projects/search_result.html', {'result': result})
+    return render(request, 'projects/search_result.html', {'result': resultList})
 
     Project.objects.filter(Q(title__icontains="project") | Q(
         details__icontains="project")).distinct().annotate()
