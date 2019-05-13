@@ -21,6 +21,13 @@
       <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" href="#">Projects</a>
       <a class="nav-item nav-link" href="#">Profile</a>
+        {% if user.is_authenticated %}
+{#        <div class="col-sm-12 mt-2 text-center">#}
+{#          <button class="btn btn-default">#}
+            <a href="{% url 'logout' %}" style="color: white;">Logout</a>
+{#          </button>#}
+{#        </div>#}
+        {% endif %}
     </div>
   </div>
     <form class="form-inline" action="{% url 'project_search' %}" method="get" accept-charset="utf-8">
