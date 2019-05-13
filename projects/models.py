@@ -29,18 +29,6 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-
-class Comment(models.Model):
-    rate = models.IntegerField()
-    comment = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    reports = models.IntegerField(default = 0)
-
-    def __str__(self):
-        return self.project.title
-
-
 # function to generate unique name for uploaded imgs
 def get_file_path(instance, filename):
     ext = filename.split('.')[-1]
@@ -61,10 +49,3 @@ class Donation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.IntegerField()
 
-class ReportedProject(models.Model) : 
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE) 
-
-class ReportedComment(models.Model):
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE) 

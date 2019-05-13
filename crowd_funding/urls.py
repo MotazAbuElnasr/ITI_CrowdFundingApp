@@ -5,6 +5,7 @@ from django.contrib.staticfiles.urls import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import settings
 from projects.views import index
+from single_project.views import view_project
 from users import views
 
 urlpatterns = [
