@@ -137,4 +137,13 @@ textarea.materialize-textarea:focus:not([readonly]) {
     padding: 20px;
     font-size:20px;
 }
-
+.tags{
+margin-top: 4%
+}
+.tag{
+    padding: 2%;
+    margin: 2%;
+    border: rgb(20, 20, 158) 1px solid;
+    border-radius:4px;
+    background: rgb(212, 204, 246)
+}

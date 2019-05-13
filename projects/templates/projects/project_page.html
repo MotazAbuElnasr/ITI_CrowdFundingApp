@@ -4,16 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
+    {%load static%}
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link href="{% static 'projects/materialize.css' %}" rel="stylesheet" />
     <!-- Compiled and minified JavaScript -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{% static 'projects/materialize.js' %}"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-    {%load static%}
     <link href="{% static 'projects/project_page.css' %}" rel="stylesheet" />
     <!-- the static -->
 </head>
@@ -23,12 +22,13 @@
     <div class="container">
         <div class="row project">
             <div class="col-3">
-                <img src="{{ featured_img }}" class="projectCover img-fluid" />
+                <img src="{{ featured_img }}" class="img-fluid" />
             </div>
             <div class="col-5 projectArea">
                 <div class="row">
                     <div class="col-12">
                         <h2 class="projectTitle">{{ project.title }}</h2>
+                        <h4>Category : {{ project.category }}</h4>
                         {% if comments|length > 0 %}
                         <h4 class="float-left">Average rating : </h4>
                         <div>
@@ -49,9 +49,13 @@
                         {%endif%}
                         <h4>project owner : {{ project.user.username }}</h4>
                         <p class="projectDescription">Details : {{ project.details }}</p>
+                        {%if target_reached%}
+                        <div class="green lighten-2 text-center" style="width:70%; padding:1%; border-radius:20px">
+                            Target reached ^_^ you can Donate More </div>
+                        {%endif%}
                         <form method="post" action="donate">
                             {% csrf_token %}
-                            <div class="row" style="margin-top:-30px;margin-bottom:-17px">
+                            <div class="row" style="margin-top:-10px;margin-bottom:-17px">
                                 <div class="col-12" style="font-size:19px">
                                     Donate amount :
                                     <div class="input-field inline">
@@ -64,9 +68,15 @@
                                 </div>
                             </div>
                             <input type="hidden" value="{{ project.id }}" name="project_id" />
-                            <button type="submit" class="borrow waves-effect waves-light  green lighten-2 btn"
+                            <button type="submit" class="borrow waves-effect waves-light text-white green darken-1 btn"
                                 style="width:70%"> Donate </button>
                         </form>
+                        <div class="tags">
+                        {%for tag in project.tags.all%}
+                        <span class="tag">#{{ tag }}</span>
+                        {%endfor%}
+                    </div>
+
                     </div>
                 </div>
             </div>
@@ -76,8 +86,14 @@
                         <p>Target : {{ target }}</p>
                         <p>Donated : {{ total_amount }}</p>
                         <div class="w3-light-grey w3-round">
-                            <div class="w3-container w3-round w3-blue" style="color:teal; width:{{ percentage }}%">{{ percentage }}%
+                            {%if target_reached%}
+                            <div class="w3-container w3-round w3-blue" style="color:teal; width:100%">{{ percentage }}%
                             </div>
+                            {%else%}
+                            <div class="w3-container w3-round w3-blue" style="color:teal; width:{{ percentage }}%">
+                                {{ percentage }}%
+                            </div>
+                            {%endif%}
                         </div>
 
                     </div>
@@ -85,7 +101,10 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-10 actions">
-                        {%if can_report%}
+                        {%if reported_before %}
+                        <div class="text-center waves-light yellow lighten-2 "
+                            style="width:100%;padding:2%;border-radius:20px"> Already Reported </div>
+                        {%elif can_report%}
                         <form method="post" action="report_project">
                             {% csrf_token %}
                             <input type="hidden" value="{{ project.id }}" name="project_id" />
@@ -105,134 +124,139 @@
                 </div>
             </div>
         </div>
-
-        <div class="row">
+        {%if imgs%}
+        <div class="row justify-content-center blue lighten-4">
             <div class="col-7">
-                {%if can_comment%}
-                <form method="post" action="addcomment">
-                    {% csrf_token %}
-                    <!-- get project id and project category -->
-                    <input type="hidden" name="project_id" value="{{ project.id }}" />
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="form-group">
-                                <div class="input-field">
-                                    {{ form.comment }}
-                                    <label for="id_comment">Enter your comment</label>
-                                </div>
-                            </div>
-                            <input id="comment" type="submit" class="waves-light btn btn-block indigo lighten-1"
-                                value="comment" />
+                <div id="carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {%for img in imgs%}
+                        <div class="carousel-item {%if forloop.first%} active {%endif%}">
+                            <img class="d-block" width="100%" height="300" src="{{ img }}" alt="Third slide">
                         </div>
-                        <div class="col-4">
-                            <ul class="rate-area">
-                                {% for radio in form.rate %}
-                                {{ radio.tag }}
-                                <label title="{{ radio.choice_label }}" for="{{ radio.id_for_label }}"> </label>
-                                {% endfor %}
-                            </ul>
+                        {%endfor%}
 
-                        </div>
                     </div>
-                </form>
-                {%else%}
-                <div class="text-center alert-danger error">
-                    <h4>
-                        You have already rated this project
-                    </h4>
-                </div>
-                {%endif%}
-                {%for entry in users_info%}
-                <div class="card">
-                    <div style="height:50px" class="d-flex  justify-content-around blue darken-1">
-                        <p class=" ml-3 text-white userName">{{ entry.user_name }}</p>
-
-                        <p class="ml-3 text-white donatedAmount ">
-                            Donated amount : {{ entry.amount }}
-                        </p>
-                        <div class="rating ml-5">
-                            {%for i in entry.rate|to_range %} <span class="star yellow-text text-darken-2">★</span>
-                            {%endfor%}
-                            {%with remainder=5|sub:entry.rate%}
-                            {%for i in remainder|to_range%} <span class="star">☆</span>
-                            {%endfor%}
-                            {%endwith%}
-                        </div>
-                        {# Here we will add the ability to delete #}
-                    </div>
-                    <div class=" comment card-content light-green lighten-4">
-                        {{ entry.comment }}
-                    </div>
-                </div>
-                {%endfor%}
-            </div>
-            <div class="col-1"></div>
-            <div class="col-4">
-                <div class="card">
-                    <div style="height:50px" class="d-flex  justify-content-around blue darken-1">
-                        <p class=" ml-3 text-white userName">Donators</p>
-                    </div>
-                    <div class=" comment card-content light-green lighten-4">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">User Name</th>
-                                    <th class="text-center">ِAmount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {%for user in donators%}
-                                <tr>
-                                    <td class="text-center">{{ user.user_name }}</td>
-                                    <td class="text-center">{{ user.sum }}</td>
-                                </tr>
-                                {%endfor%}
-                            </tbody>
-                        </table>
-                    </div>
+                    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                        <span style="color:black;font-size:25px" aria-hidden="true">
+                            <</span> </a> <a class="carousel-control-next" href="#carousel" role="button"
+                                data-slide="next">
+                                <span style="color:black;font-size:25px" aria-hidden="true">></span>
+                    </a>
                 </div>
             </div>
         </div>
+        {%endif%}
 
 
+    <div class="row">
+        <div class="col-7">
+            {%if can_comment%}
+            <form method="post" action="addcomment">
+                {% csrf_token %}
+                <!-- get project id and project category -->
+                <input type="hidden" name="project_id" value="{{ project.id }}" />
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group">
+                            <div class="input-field">
+                                {{ form.comment }}
+                                <label for="id_comment">Enter your comment</label>
+                            </div>
+                        </div>
+                        <input id="comment" type="submit" class="waves-light btn btn-block indigo lighten-1"
+                            value="comment" />
+                    </div>
+                    <div class="col-4">
+                        <ul class="rate-area">
+                            {% for radio in form.rate %}
+                            {{ radio.tag }}
+                            <label title="{{ radio.choice_label }}" for="{{ radio.id_for_label }}"> </label>
+                            {% endfor %}
+                        </ul>
 
+                    </div>
+                </div>
+            </form>
+            {%else%}
+            <div class="text-center alert-danger error">
+                <h4>
+                    You have already rated this project
+                </h4>
+            </div>
+            {%endif%}
+            {%for entry in users_info%}
+            <div class="card">
+                <div style="height:50px" class="d-flex justify-content-around blue darken-1">
+                    <p class=" ml-3 text-white userName">{{ entry.user_name }}</p>
+                    <p class="ml-3 text-white donatedAmount ">
+                        Donated amount : {{ entry.amount }}
+                    </p>
+                    <div class="rating ml-5">
+                        {%for i in entry.rate|to_range %} <span class="star yellow-text text-darken-2">★</span>
+                        {%endfor%}
+                        {%with remainder=5|sub:entry.rate%}
+                        {%for i in remainder|to_range%} <span class="star">☆</span>
+                        {%endfor%}
+                        {%endwith%}
+                    </div>
+                    {%if entry.can_delete%}
+                    <form method="post" action="delete_comment" style="line-height:50px; margin-left:2%">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ project.id }}" name="project_id" />
+                        <input type="hidden" value="{{ entry.comment_id }}" name="comment_id" />
+                        <button type="submit" class="cancel waves-effect waves-light text-white red darken-4 btn"
+                            style="width:100%;"> Delete </button>
+                    </form>
+                    {%endif%}
+                    {%if entry.reported_before%}
+                    <div style="line-height:50px;"><button class="text-center waves-light yellow lighten-2 btn"
+                            style="border-radius:10px;cursor:default"> Reported </button> </div>
+                    {%elif entry.can_report%}
+                    <form method="post" action="report_comment" style="line-height:50px; margin-left:2%">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ project.id }}" name="project_id" />
+                        <input type="hidden" value="{{ entry.comment_id }}" name="comment_id" />
+                        <button type="submit"
+                            class="report waves-effect waves-light text-black yellow darken-2 btn mb-1"
+                            style="width:100%;"> Report </button>
+                    </form>
+                    {%endif%}
+                </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
+                <div class=" comment card-content light-green lighten-4">
+                    {{ entry.comment }}
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+        <div class="col-1"></div>
+        <div class="col-4">
+            <div class="card">
+                <div style="height:50px" class="d-flex  justify-content-around blue darken-1">
+                    <p class=" ml-3 text-white userName">Donators</p>
+                </div>
+                <div class=" comment card-content light-green lighten-4">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="text-center">User Name</th>
+                                <th class="text-center">ِAmount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for user in donators%}
+                            <tr>
+                                <td class="text-center">{{ user.user_name }}</td>
+                                <td class="text-center">{{ user.sum }}</td>
+                            </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -251,7 +275,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
-
+    <script>
+        $('.carousel').carousel()
+    </script>
 </body>
 
 </html>

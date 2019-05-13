@@ -21,7 +21,7 @@ class Project(models.Model):
     details = models.TextField()
     target = models.IntegerField()
     tags = TaggableManager()
-    reports = models.IntegerField()
+    reports = models.IntegerField(default = 0)
     featured = models.BooleanField(default=False)
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
@@ -35,6 +35,7 @@ class Comment(models.Model):
     comment = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    reports = models.IntegerField(default = 0)
 
     def __str__(self):
         return self.project.title
@@ -59,3 +60,11 @@ class Donation(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.IntegerField()
+
+class ReportedProject(models.Model) : 
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+
+class ReportedComment(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE) 
