@@ -4,13 +4,11 @@
 
 {% block body_block %}
   <div class="container">
-    <div class="jumbotron">
       {% if registered %}
-        <h1>Thank you for registering!</h1>
+        <h1>Thank you for registering, Check your Email for Activating Link.</h1>
       {% else %}
-        <h1>Register Here</h1>
-        <h3>Just fill out the form.</h3>
-<form enctype="multipart/form-data" method="POST">
+        <h1>Registration</h1>
+        <form enctype="multipart/form-data" method="POST">
           {% csrf_token %}
           {{ user_form.as_p }}
           {{ profile_form.as_p }}
@@ -18,6 +16,5 @@
         </form>
 
       {% endif %}
-    </div>
   </div>
 {% endblock %}
