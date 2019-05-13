@@ -27,12 +27,15 @@ def index(request):
     # preparing Top Rated Projects in One List
     topRatedProjectsList = []
     for project in topRatedProjects:
+        projectImg = "No Image"
+        if project.projectimage_set.count() > 0:
+            projectImg =project.projectimage_set.first().img.url
         topRatedProjectsList.append({
             'id': project.id,
             'title': project.title,
             'rate': project.comment_rate,
             'target': project.target,
-            'img': project.projectimage_set.first().img.url
+            'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
         })
 
     # preparing Latest Projects in One List
@@ -44,7 +47,7 @@ def index(request):
             'details': "asdfdsaf12",
             'target': project.target,
             'start_date': project.start_date,
-            'img': project.projectimage_set.first().img.url
+            'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
         })
 
     # preparing Featured Projects in One List
@@ -56,7 +59,8 @@ def index(request):
             'details': "asdfdsaf12",
             'target': project.target,
             'start_date': project.start_date,
-            'img': project.projectimage_set.first().img.url
+            'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
+            
         })
     # imgSrc = topRatedProjects[0].projectimage_set.first().img.url
     context = {
