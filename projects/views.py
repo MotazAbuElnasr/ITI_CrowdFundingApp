@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 import datetime
 import math
 from django import template
@@ -14,6 +16,7 @@ from .models import Comment, Donation, Project, ProjectImage
 register = template.Library()
 
 
+@login_required
 def index(request):
     topRatedProjects = Project.objects.annotate(
         comment_rate=Avg('comment__rate')).order_by('-comment_rate')[:5]
@@ -64,6 +67,8 @@ def index(request):
     return render(request, "projects/index.html", context)
 
 def get_users_info (project_id,comments,user_names) :
+    if len(user_names) == 0 :
+        return []
     users_info=[]
     for i, user in enumerate(user_names):
         amount = Donation.objects.filter(user_id=user[1], project_id=project_id).aggregate(Sum('amount'))
@@ -94,8 +99,9 @@ def get_donators_info(p_id):
                 donator_id.append(data.user.id)
     return donators
 
+@login_required
 def view_project(request, id):
-    current_user = 1
+    current_user = request.user.id
     project = Project.objects.get(id=id)
     featured_img = project.projectimage_set.first().img.url
     comments = list(project.comment_set.values())
@@ -117,6 +123,8 @@ def view_project(request, id):
     total_amount = Donation.objects.filter(
         project_id=id).aggregate(Sum('amount'))['amount__sum']
     target = project.target
+    if not total_amount:
+        total_amount = 0
     percentage = math.floor(total_amount*100/target)
     can_cancel = True if percentage < 25 and project.user_id == current_user else False
     can_report = True if project.user_id != current_user else False
@@ -143,10 +151,9 @@ def view_project(request, id):
         "can_report" : can_report,
     }
     return render(request, 'projects/project_page.html/', context)
-
+@login_required
 def add_comment(request):
-    print(request.user.id)
-    current_user = 1
+    current_user = request.user.id
     form = AddCommentForm(request.POST)
     if form.is_valid():
         comment = Comment()
@@ -157,17 +164,18 @@ def add_comment(request):
         comment.save()
         return redirect('/projects/'+str(comment.project_id))
     return redirect('/projects/'+str(comment.project_id))
-
+@login_required
 def donate(request):
+    current_user = request.user.id
     donation = Donation()
     donation.amount = request.POST['amount']
     donation.project_id = request.POST['project_id']
-    donation.user_id = 1
+    donation.user_id = current_user
     donation.save()
     return redirect('/projects/'+str(donation.project_id))
 
 def cancel_project(request):
-    current_user = 2
+    current_user = request.user.id
     p_id = request.POST['project_id']
     project = Project.objects.get(id=p_id)
     # check if the deleter is the project owner
@@ -175,11 +183,12 @@ def cancel_project(request):
         project.delete()
         return redirect('/')
     return redirect('/projects/'+str(p_id))
-    
+@login_required    
 def report_project(request) :
     
     pass
 
+@login_required
 def project_search(request):
     query = request.GET.get('q')
     result = []

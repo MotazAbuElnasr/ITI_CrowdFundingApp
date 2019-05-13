@@ -56,7 +56,7 @@ ROOT_URLCONF = 'crowd_funding.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'users/templates/users/')],
+        'DIRS': [os.path.join(BASE_DIR, 'users/templates/users/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -110,11 +110,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-        'social_core.backends.linkedin.LinkedinOAuth2',
-        'social_core.backends.instagram.InstagramOAuth2',
-        'social_core.backends.facebook.FacebookOAuth2',
-        'django.contrib.auth.backends.ModelBackend',
-    ]
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.instagram.InstagramOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -136,9 +136,9 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/users/login'
+LOGIN_URL = '/users/user_login'
 
-#email configurations
+# email configurations
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ahmedmagdy2016@gmail.com'
@@ -149,12 +149,11 @@ SOCIAL_AUTH_FACEBOOK_KEY = '292236558347924'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'e70e7a74b24022aefcf1bbe07a2a28cb'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-      'fields': 'id, name, email, picture.type(large), link'
+    'fields': 'id, name, email, picture.type(large), link'
 }
 SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
-        ('name', 'name'),
-        ('email', 'email'),
-        ('picture', 'picture'),
-        ('link', 'profile_url'),
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
 ]
-
