@@ -14,7 +14,6 @@ from .models import Donation, Project, ProjectImage
 
 register = template.Library()
 
-
 @login_required
 def index(request):
     topRatedProjects = Project.objects.annotate(
@@ -26,51 +25,39 @@ def index(request):
     # preparing Top Rated Projects in One List
     topRatedProjectsList = []
     for project in topRatedProjects:
-        featured_img = project.projectimage_set.first()
-        if featured_img != None : 
-            featured_img = featured_img.img.url
-        else : 
-            featured_img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'
         topRatedProjectsList.append({
             'id': project.id,
             'title': project.title,
             'rate': project.comment_rate,
             'target': project.target,
-            'img': featured_img
+            'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
         })
 
     # preparing Latest Projects in One List
     latestProjectsList = []
     for project in latestProjects:
-        featured_img = project.projectimage_set.first()
-        if featured_img != None : 
-            featured_img = featured_img.img.url
-        else : 
-            featured_img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'
+      
         latestProjectsList.append({
             'id': project.id,
             'title': project.title,
             'details': project.details,
             'target': project.target,
             'start_date': project.start_date,
-            'img': featured_img
+            'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
         })
 
     # preparing Featured Projects in One List
     featuredProjectsList = []
     for project in featuredProjects:
-        featured_img = project.projectimage_set.first()
-        if featured_img != None : 
-            featured_img = featured_img.img.url
-        else : 
-            featured_img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png'
+    
         featuredProjectsList.append({
             'id': project.id,
             'title': project.title,
             'details': project.details,
             'target': project.target,
             'start_date': project.start_date,
-            'img': featured_img
+            'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
+            
         })
     # imgSrc = topRatedProjects[0].projectimage_set.first().img.url
     context = {
