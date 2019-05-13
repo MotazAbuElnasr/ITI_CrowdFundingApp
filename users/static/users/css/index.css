@@ -75,14 +75,13 @@ a:hover{
     text-decoration: none;
 }
 .register{
-    margin-left: 55%;
+    margin-left: 40%;
 }
 .login{
-    margin-right: 12%;
+    margin-right: 20%;
 }
 .container{
     margin-top: 30px;
-
 }
 
 label[for=username-login],[for=password-login]{
