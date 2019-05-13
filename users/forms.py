@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import TextInput
+
 from .models import UserProfileInfo
 from django.contrib.auth.models import User
 
@@ -6,6 +8,7 @@ from django.contrib.auth.models import User
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
     confirm_password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = User
         fields = (
@@ -14,7 +17,10 @@ class UserForm(forms.ModelForm):
             'username',
             'email',
             'password',
-            )
+        )
+        help_texts = {
+            'username': None,
+        }
 
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
@@ -23,8 +29,15 @@ class UserForm(forms.ModelForm):
 
         if password != confirm_password:
             raise forms.ValidationError(
-                "password and confirm_password does not match"
+                "password and confirm password does not match."
             )
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        username = self.cleaned_data.get('username')
+        if email and User.objects.filter(email=email).exclude(username=username).exists():
+            raise forms.ValidationError('This Email is registered, use another email.')
+        return email
 
 
 class UserProfileInfoForm(forms.ModelForm):

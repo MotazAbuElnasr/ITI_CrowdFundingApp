@@ -44,7 +44,7 @@ def index(request):
         latestProjectsList.append({
             'id': project.id,
             'title': project.title,
-            'details': "asdfdsaf12",
+            'details': project.details,
             'target': project.target,
             'start_date': project.start_date,
             'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
@@ -56,7 +56,7 @@ def index(request):
         featuredProjectsList.append({
             'id': project.id,
             'title': project.title,
-            'details': "asdfdsaf12",
+            'details': project.details,
             'target': project.target,
             'start_date': project.start_date,
             'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
