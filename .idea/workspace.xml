@@ -2,7 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f47243d8-a962-4181-9028-1d88ba778f76" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/users/static/users/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/users/static/users/css/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/project_images/NotFound.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projects/migrations/0009_auto_20190513_1324.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_project/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_project/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_project/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_project/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_project/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_project/templatetags/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_project/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_project/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_project/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crowd_funding/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/crowd_funding/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crowd_funding/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/crowd_funding/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/single_project/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/static/projects/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/single_project/static/projects/bootstrap.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/static/projects/materialize.css" beforeDir="false" afterPath="$PROJECT_DIR$/single_project/static/projects/materialize.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/static/projects/materialize.js" beforeDir="false" afterPath="$PROJECT_DIR$/single_project/static/projects/materialize.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/static/projects/progress_bar.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/static/projects/project_page.css" beforeDir="false" afterPath="$PROJECT_DIR$/single_project/static/projects/project_page.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/templates/projects/project_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/single_project/templates/single_project/project_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/templatetags/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/single_project/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/templatetags/projects_filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/single_project/templatetags/projects_filters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/projects/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,7 +52,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/users/static/users/css/index.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="606">
+            <state relative-caret-position="146">
               <caret line="83" column="21" selection-start-line="83" selection-start-column="21" selection-end-line="83" selection-end-column="21" />
             </state>
           </provider>
@@ -145,63 +170,6 @@
               <item name="ITI_CrowdFundingApp" type="462c0819:PsiDirectoryNode" />
               <item name="crowd_funding" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="ITI_CrowdFundingApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ITI_CrowdFundingApp" type="462c0819:PsiDirectoryNode" />
-              <item name="projects" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ITI_CrowdFundingApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ITI_CrowdFundingApp" type="462c0819:PsiDirectoryNode" />
-              <item name="projects" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ITI_CrowdFundingApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ITI_CrowdFundingApp" type="462c0819:PsiDirectoryNode" />
-              <item name="projects" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="projects" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ITI_CrowdFundingApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ITI_CrowdFundingApp" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ITI_CrowdFundingApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ITI_CrowdFundingApp" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ITI_CrowdFundingApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ITI_CrowdFundingApp" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ITI_CrowdFundingApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ITI_CrowdFundingApp" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ITI_CrowdFundingApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ITI_CrowdFundingApp" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ITI_CrowdFundingApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ITI_CrowdFundingApp" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -284,16 +252,15 @@
       <workItem from="1557522981315" duration="2666000" />
       <workItem from="1557526750411" duration="2380000" />
       <workItem from="1557672356417" duration="1438000" />
-      <workItem from="1557742873736" duration="15069000" />
+      <workItem from="1557742873736" duration="15204000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43316000" />
+    <option name="totallyTimeSpent" value="43451000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="34" width="1920" height="1046" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26565874" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -626,7 +593,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/users/static/users/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="606">
+        <state relative-caret-position="146">
           <caret line="83" column="21" selection-start-line="83" selection-start-column="21" selection-end-line="83" selection-end-column="21" />
         </state>
       </provider>
