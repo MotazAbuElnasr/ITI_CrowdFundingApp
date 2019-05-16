@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 import datetime
 import math
 from django import template
@@ -10,7 +12,8 @@ from django.db.models.query import prefetch_related_objects
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from .models import Donation, Project, ProjectImage
+from .models import Donation, Project, ProjectImage, Category 
+from .forms import ProjectForm, ProjectImageForm
 
 register = template.Library()
 
@@ -129,3 +132,33 @@ def myDonations(request):
             
     })    
     return render(request, 'projects/myDonations.html', {'myDonations': myDonationList})
+
+# create new project function
+@login_required
+def create_project(request):
+    if request.method == 'GET' :
+        form = ProjectForm()
+    else:
+        form = ProjectForm(request.POST)
+        files = request.FILES.getlist('images')
+        if form.is_valid():
+            form.save()
+            project_id =Project.objects.latest('id').id
+            return HttpResponseRedirect(reverse('/projects/project_images/', args=(project_id,)))
+
+
+    return render(request,'projects/add.html', {'form': form})
+def project_images(request, project_id):
+    if request.method == 'GET' :
+        form = ProjectImageForm()
+    else:
+        form = ProjectImageForm(request.POST)
+        files = request.FILES.getlist('images')
+        if form.is_valid():
+            for f in files:
+                ProjectForm.objects.create(project_id=project_id,img=f)
+           
+            return redirect('/projects')
+    return render(request,'projects/upload_images.html', {'form': form})
+
+
