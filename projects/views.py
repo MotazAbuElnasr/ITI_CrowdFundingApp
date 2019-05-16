@@ -94,4 +94,38 @@ def project_search(request):
     return render(request, 'projects/search_result.html', {'result': resultList})
 
     Project.objects.filter(Q(title__icontains="project") | Q(
-        details__icontains="project")).distinct().annotate()
+        details__icontains="project")).distinct().annotate
+
+def myProjects(request):
+    current_user = request.user.id
+
+    myProjects = Project.objectsfilter(user_id=current_user).order_by('start_date')
+# preparing User Projects in One List
+    myProjectsList = []
+    for project in myProjects:
+        print ("my projects : ",myProjectsList)
+        myProjectsList.append({
+                'id': project.id,
+                'title': project.title,
+                'details': project.details,
+                'target': project.target,
+                'start_date': project.start_date,
+                'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
+    })    
+    return render(request, 'projects/myprojects.html', {'myProjects': myProjectsList})
+      
+def myDonations(request):
+    current_user = request.user.id
+
+    myDonations = Project.objectsfilter(user_id=current_user).order_by('start_date')
+# preparing User Donations in One List
+   
+    myDonationsList = []
+    for Donation in myDonationsList:
+        
+        myDonationsList.append({
+            'id': Donation.id,
+            'amount': project.title,
+            
+    })    
+    return render(request, 'projects/myDonations.html', {'myDonations': myDonationList})
