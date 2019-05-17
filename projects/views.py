@@ -1,7 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 import datetime
 import math
 from django import template
@@ -143,9 +141,9 @@ def create_project(request):
         files = request.FILES.getlist('images')
         if form.is_valid():
             form.save()
-            project_id =Project.objects.latest('id').id
-            return HttpResponseRedirect(reverse('/projects/project_images/', args=(project_id,)))
-
+            last_id =Project.objects.latest('id')
+            
+            return redirect('/projects/project_images/', project_id= "1")
 
     return render(request,'projects/add.html', {'form': form})
 def project_images(request, project_id):
@@ -161,4 +159,8 @@ def project_images(request, project_id):
             return redirect('/projects')
     return render(request,'projects/upload_images.html', {'form': form})
 
+def list_projects_with_categories(request):
+    projects = Project.objects.all()
+    categories = Category.objects.all()
+    return render(request,'projects/app.html', {'projects': projects, 'categories': categories})
 
