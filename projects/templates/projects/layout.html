@@ -18,8 +18,11 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="#">Projects</a>
+      <a class="nav-item nav-link active" href="{% url 'projects_index' %}">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="{% url 'myProjects' %}">My Projects</a>
+      <a class="nav-item nav-link" href="{% url 'myDonations' %}">My Donations</a>
+      <a class="nav-item nav-link" href="{% url 'all_projects' %}">All Projects</a>
+      <a class="nav-item nav-link" href="{% url 'create_project' %}">Add Project</a>
       <a class="nav-item nav-link" href="#">Profile</a>
         {% if user.is_authenticated %}
 {#        <div class="col-sm-12 mt-2 text-center">#}

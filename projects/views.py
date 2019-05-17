@@ -100,7 +100,7 @@ def project_search(request):
 def myProjects(request):
     current_user = request.user.id
 
-    myProjects = Project.objectsfilter(user_id=current_user).order_by('start_date')
+    myProjects = Project.objects.filter(user_id=current_user).order_by('start_date')
 # preparing User Projects in One List
     myProjectsList = []
     for project in myProjects:
@@ -118,7 +118,7 @@ def myProjects(request):
 def myDonations(request):
     current_user = request.user.id
 
-    myDonations = Project.objectsfilter(user_id=current_user).order_by('start_date')
+    myDonations = Project.objects.filter(user_id=current_user).order_by('start_date')
 # preparing User Donations in One List
    
     myDonationsList = []
@@ -129,7 +129,7 @@ def myDonations(request):
             'amount': project.title,
             
     })    
-    return render(request, 'projects/myDonations.html', {'myDonations': myDonationList})
+    return render(request, 'projects/myDonations.html', {'myDonations': myDonationsList})
 
 # create new project function
 @login_required
@@ -140,27 +140,39 @@ def create_project(request):
         form = ProjectForm(request.POST)
         files = request.FILES.getlist('images')
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.user_id = request.user.id
+            obj.save()
             last_id =Project.objects.latest('id')
-            
-            return redirect('/projects/project_images/', project_id= "1")
-
+            return redirect('/projects/project_images/'+ str(last_id.id))
     return render(request,'projects/add.html', {'form': form})
+
+#  upload images form and function
+@login_required
 def project_images(request, project_id):
     if request.method == 'GET' :
         form = ProjectImageForm()
     else:
         form = ProjectImageForm(request.POST)
         files = request.FILES.getlist('images')
-        if form.is_valid():
+        if request.FILES['images']:
             for f in files:
-                ProjectForm.objects.create(project_id=project_id,img=f)
+                ProjectImage.objects.create(project_id=project_id,img=f)
            
             return redirect('/projects')
     return render(request,'projects/upload_images.html', {'form': form})
 
+@login_required
 def list_projects_with_categories(request):
-    projects = Project.objects.all()
+    all_projects = Project.objects.all()
+    projects = []
+    for project in all_projects:
+        projects.append({
+            'id': project.id,
+            'title': project.title,
+            'img': (project.projectimage_set.first().img.url if ( project.projectimage_set.count() > 0 ) else "/media/project_images/NotFound.png")
+        })
+     
     categories = Category.objects.all()
     return render(request,'projects/app.html', {'projects': projects, 'categories': categories})
 

@@ -34,7 +34,7 @@
             <div class="mask rgba-black-light"></div>
         </div>
         <div class="carousel-caption">
-            <a href="projects/{{ project.id }}">
+            <a href="{% url 'project_details' project.id %}">
                 <h3 class="h3-responsive text-dark">{{ project.title }}</h3>
             </a>
             <p class="text-dark">Rating : {{project.rate}}</p>
@@ -68,7 +68,7 @@
             <div class="card col-md-4">
                 <img class="card-img-top" src="{{project.img}}" alt="Card image cap">
                 <div class="card-body">
-                    <a href="projects/{{ project.id }}">
+                    <a href="{% url 'project_details' project.id %}">
                         <h5 class="card-title">{{project.title}}</h5>
                     </a>
                     {% comment %} <p class="card-text">{ {project.details}}</p> {% endcomment %}
