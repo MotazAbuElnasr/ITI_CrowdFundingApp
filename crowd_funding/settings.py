@@ -86,8 +86,8 @@ DATABASES = {
         # 'USER': 'root',
         # 'PASSWORD': '',
         # 'HOST': '/opt/lampp/var/mysql/mysql.sock',
-        'USER': 'alaa',
-        'PASSWORD': 'a',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
     }
